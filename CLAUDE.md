@@ -66,7 +66,11 @@ Regras do gate:
 4. Rodar o quality gate.
 5. Entregar: o que mudou, a saída do gate e uma **sugestão** de mensagem de commit. A dupla commita.
 
-## 6. Estado atual
+## 6. Documentos do harness
+
+- [`.claude/docs/sprint-3.md`](.claude/docs/sprint-3.md): divisão do front-end entre Lucas (componentes e estilo, primeiro) e Dudu (telas, navegação e estado, depois), fases, cenários de impasse e como reagir, padrão para criar componentes e telas. **Ler antes de implementar qualquer coisa da Sprint 3.**
+
+## 7. Estado atual
 
 - Template `blank-typescript` do `create-expo-app`, Expo SDK 58, React Native 0.88, React 19.3, TypeScript 6. O commit inicial veio do próprio gerador.
 - Nenhum código do Bombaio ainda: sem navegação, telas, banco, assets ou fontes.
