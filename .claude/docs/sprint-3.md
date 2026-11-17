@@ -26,12 +26,12 @@ O trabalho é **sequencial de propósito**: o Dudu entra quando os componentes d
 
 | decisão | proposta | situação |
 |---|---|---|
-| Roteamento | **Expo Router** (rotas por arquivo em `src/app/`; usa React Navigation por baixo) | a confirmar pela dupla. O documento da Sprint 2 cita React Navigation; se ficar Expo Router, ajustar o Quadro 2 na entrega |
+| Roteamento | **Expo Router** (rotas por arquivo em `src/app/`; usa React Navigation por baixo) | **decidido** (Lucas, 17/11). Ajustar o Quadro 2 do documento na entrega, que cita React Navigation |
 | Estado | Context API + `useReducer`, um provedor `GameProvider` | proposta |
 | Dados | `src/data/mock.ts` tipado, copiado do `WORLD` do Storybook | proposta |
 | Estilo | `StyleSheet` do React Native + tokens de `src/theme/`. Sem biblioteca de UI (NativeBase, Paper, Tamagui…) e sem Tailwind/NativeWind | proposta |
-| Fontes | `expo-font` + `@expo-google-fonts/jersey-15`, `vt323` e `atkinson-hyperlegible` | proposta |
-| Árvore | as 25 árvores rasterizadas em PNG a partir dos SVGs do Storybook (os SVGs têm até 3 MB cada e pesariam no `react-native-svg`) | proposta |
+| Fontes | `expo-font` + `@expo-google-fonts/jersey-15`, `vt323` e `atkinson-hyperlegible` | **decidido** e instalado (Lucas, 17/11) |
+| Árvore | as 25 árvores rasterizadas em PNG a partir dos SVGs do Storybook (os SVGs têm até 3 MB cada e pesariam no `react-native-svg`) | **decidido** (Lucas, 17/11): PNG 942×942 |
 | Gestos/animação | `react-native-gesture-handler` + `react-native-reanimated` (zoom e pinça da árvore) | proposta |
 
 Enquanto uma decisão estiver como "proposta", a IA segue a proposta, mas **não instala dependência** sem confirmação do Lucas na conversa.
@@ -180,8 +180,11 @@ Atualizar aqui durante a sprint (data, decisão, quem).
 
 | data | item | situação |
 |---|---|---|
-| 2026-11-17 | Roteamento: Expo Router ou React Navigation puro | aberto |
+| 2026-11-17 | Roteamento: **Expo Router** (rotas em `src/app/`, entrada `expo-router/entry`) | decidido (Lucas) |
 | 2026-11-17 | Rota de vitrine `dev` no build final | aberto |
+| 2026-11-17 | Dependências da A1 aprovadas: expo-font, expo-splash-screen, Google Fonts (Jersey 15, VT323, Atkinson), expo-router e pares, ESLint (`eslint-config-expo`, instalado com `--legacy-peer-deps`) | decidido (Lucas) |
+| 2026-11-17 | Árvores em PNG 942×942 (grade 314 × 3, vizinho mais próximo) em `assets/arvores/`, registro em `src/theme/art.ts` | decidido (Lucas) |
+| 2026-11-17 | `src/app/_layout.tsx` (fontes + splash + Stack) e `src/app/index.tsx` (redireciona para `/dev`) criados pela Frente A como base mínima; o Dudu assume e substitui na B1 | provisório |
 
 ## 10. Material para a seção 4.1 do documento
 
