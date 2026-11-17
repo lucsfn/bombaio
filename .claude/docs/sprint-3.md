@@ -187,6 +187,9 @@ Atualizar aqui durante a sprint (data, decisão, quem).
 | 2026-11-17 | `src/app/_layout.tsx` (fontes + splash + Stack) e `src/app/index.tsx` (redireciona para `/dev`) criados pela Frente A como base mínima; o Dudu assume e substitui na B1 | provisório |
 | 2026-11-17 | `expo-image` aprovado e instalado (Fase A2) | decidido (Lucas) |
 | 2026-11-17 | Botões, campo e chip desenhados com borda e preenchimento dos tokens, sem a arte 9-slice (`ctl-btn-*`, `ctl-input`, `ctl-chip`): o `expo-image` não faz 9-slice. Checkbox, Radio e Toggle usam a arte de `assets/controles/` | provisório, revisar com a dupla |
+| 2026-11-17 | Fase A3: `Panel` (slate, stone, obsidian, lendário) e `Dialog` também desenhados com borda e preenchimento dos tokens, sem `frame-*.png` nem cantoneiras de latão (mesmo motivo do 9-slice) | provisório, revisar com a dupla |
+| 2026-11-17 | `TabBar` genérica (`items`, `activeKey`, `onSelect`), sem depender do Expo Router; o Dudu liga no `tabBar` do navegador de abas na B1 | decidido (Lucas) |
+| 2026-11-17 | Vitrine em duas páginas: `/dev` (A1–A2) e `/dev/superficies` (A3) | decidido (Lucas) |
 
 ## 10. Material para a seção 4.1 do documento
 
