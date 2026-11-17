@@ -127,3 +127,31 @@ export const controls = {
 
 export type IconName = keyof typeof icons128;
 export type SkillArtName = keyof typeof skills128;
+
+export const trees = [
+  require('../../assets/arvores/arvore-01.png'),
+  require('../../assets/arvores/arvore-02.png'),
+  require('../../assets/arvores/arvore-03.png'),
+  require('../../assets/arvores/arvore-04.png'),
+  require('../../assets/arvores/arvore-05.png'),
+  require('../../assets/arvores/arvore-06.png'),
+  require('../../assets/arvores/arvore-07.png'),
+  require('../../assets/arvores/arvore-08.png'),
+  require('../../assets/arvores/arvore-09.png'),
+  require('../../assets/arvores/arvore-10.png'),
+  require('../../assets/arvores/arvore-11.png'),
+  require('../../assets/arvores/arvore-12.png'),
+  require('../../assets/arvores/arvore-13.png'),
+  require('../../assets/arvores/arvore-14.png'),
+  require('../../assets/arvores/arvore-15.png'),
+  require('../../assets/arvores/arvore-16.png'),
+  require('../../assets/arvores/arvore-17.png'),
+  require('../../assets/arvores/arvore-18.png'),
+  require('../../assets/arvores/arvore-19.png'),
+  require('../../assets/arvores/arvore-20.png'),
+  require('../../assets/arvores/arvore-21-poder-01.png'),
+  require('../../assets/arvores/arvore-22-poder-02.png'),
+  require('../../assets/arvores/arvore-23-poder-03.png'),
+  require('../../assets/arvores/arvore-24-poder-04.png'),
+  require('../../assets/arvores/arvore-25-poder-05.png'),
+] as const;
