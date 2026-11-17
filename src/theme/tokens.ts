@@ -40,6 +40,7 @@ export const colors = {
   foliageLight: '#5fae74',
   foliageDeep: '#1c4a3a',
   earth: '#1d1726',
+  scrim: 'rgba(7, 10, 16, 0.72)',
 } as const;
 
 export type ColorToken = keyof typeof colors;
@@ -109,4 +110,15 @@ export const controlSizes = {
   toggleWidth: 72,
   toggleHeight: 36,
   hardShadow: 4,
+} as const;
+
+export const layout = {
+  tabBarHeight: 56,
+  tabIndicator: 4,
+  socket: 44,
+  dialogMaxWidth: 360,
+  toastDuration: 3000,
+  skeletonPulse: 900,
+  inactiveIconOpacity: 0.65,
+  disabledOpacity: 0.5,
 } as const;

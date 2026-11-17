@@ -1,12 +1,14 @@
 import { useState, type ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 import { Button } from '@/components/Button';
 import { Checkbox } from '@/components/Checkbox';
 import { Chip } from '@/components/Chip';
 import { Icon } from '@/components/Icon';
 import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
+import { ListRow } from '@/components/ListRow';
 import { Radio } from '@/components/Radio';
 import { Text } from '@/components/Text';
 import { Toggle } from '@/components/Toggle';
@@ -83,6 +85,12 @@ export default function DevShowcase() {
         <Text variant="bodySm" tone="muted">
           Toques registrados: {pressCount}
         </Text>
+        <ListRow
+          title="Superfícies e layout"
+          subtitle="Fase A3: Screen, Panel, Card, ListRow, TabBar, Dialog, Toast…"
+          leading={{ kind: 'icon', name: 'book' }}
+          onPress={() => router.push('/dev/superficies')}
+        />
 
         <Section title="Text">
           {typeSamples.map((variant) => (
