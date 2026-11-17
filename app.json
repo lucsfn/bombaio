@@ -31,7 +31,8 @@
           "backgroundColor": "#0d111b"
         }
       ],
-      "expo-router"
+      "expo-router",
+      "expo-image"
     ],
     "scheme": "bombaio",
     "backgroundColor": "#0d111b"

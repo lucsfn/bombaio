@@ -103,3 +103,10 @@ export const iconSizes = {
   ui: 32,
   art: 128,
 } as const;
+
+export const controlSizes = {
+  check: 36,
+  toggleWidth: 72,
+  toggleHeight: 36,
+  hardShadow: 4,
+} as const;
