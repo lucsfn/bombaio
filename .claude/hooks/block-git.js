@@ -8,12 +8,21 @@ process.stdin.on("end", () => {
     process.exit(0);
   }
   const command = String((input.tool_input && input.tool_input.command) || "");
-  const forbidden = /\bgit\b[^|;&\n]*?\b(commit|push|merge|rebase|reset|tag|stash|cherry-pick|revert|restore|am|apply|filter-branch|update-ref|clean)\b|\bgit\b[^|;&\n]*?\bcheckout\b[^|;&\n]*\s--(\s|$)/i;
-  if (forbidden.test(command)) {
-    process.stderr.write(
-      "Bloqueado pelo harness do Bombaio: a IA não commita nem reescreve o histórico (CLAUDE.md, regra 1.1). Termine a tarefa e sugira a mensagem de commit em texto; a dupla commita."
-    );
+  const block = (why) => {
+    process.stderr.write("Bloqueado pelo harness do Bombaio (CLAUDE.md, regra 1.1): " + why);
     process.exit(2);
+  };
+  if (!/\bgit\b/i.test(command)) process.exit(0);
+
+  const forbidden = /\bgit\b[^|;&\n]*?\b(push|merge|rebase|reset|tag|stash|cherry-pick|revert|restore|am|apply|filter-branch|filter-repo|update-ref|clean|replace|notes)\b|\bgit\b[^|;&\n]*?\bcheckout\b[^|;&\n]*\s--(\s|$)/i;
+  if (forbidden.test(command)) block("a IA não publica, não reescreve histórico e não descarta trabalho. Push e afins ficam com a dupla.");
+
+  if (/\bgit\b[^|;&\n]*\bconfig\b/i.test(command) && !/\bconfig\b[^|;&\n]*\s(--get|--list|-l)\b/i.test(command)) block("a IA não altera o git config.");
+  if (/\bgit\s+-c\s+user\./i.test(command)) block("a IA não sobrescreve a identidade do autor.");
+
+  if (/\bgit\b[^|;&\n]*\bcommit\b/i.test(command)) {
+    if (/--amend|--no-verify|(^|\s)-n(\s|$)|--author|(^|\s)-F(\s|$)|--file\b|--template\b/i.test(command)) block("commit só com -m, sem --amend, --no-verify, --author ou mensagem de arquivo.");
+    if (/co-authored-by|noreply@anthropic|generated with|claude code|\bclaude\s+(opus|sonnet|haiku|fable)\b|🤖/i.test(command)) block("proibido atribuir o commit ao modelo. Remova Co-Authored-By e qualquer menção à IA; o histórico mostra só o nome da pessoa.");
   }
   process.exit(0);
 });

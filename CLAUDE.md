@@ -4,7 +4,14 @@ Leia este arquivo inteiro antes de qualquer trabalho neste repositório. Ele val
 
 ## 1. Regras invioláveis (a IA nunca quebra)
 
-1. **A IA não commita.** Proibido `git commit`, `git push`, `git merge`, `git rebase`, `git reset`, `git tag`, `git stash`, `git checkout -- <arquivo>`, `git restore`, `git cherry-pick`, `git revert` ou qualquer comando que grave ou reescreva o histórico ou descarte trabalho. Quem commita é a dupla. A IA pode **ler** o git (`status`, `diff`, `log`, `show`, `blame`) e, ao terminar, sugerir uma mensagem de commit em texto. Bloqueado também por hook (`.claude/hooks/block-git.js`).
+1. **Commits da IA: permitidos, com histórico limpo** (decisão do Lucas em 17/11/2026).
+   - A IA **pode commitar** quando a tarefa estiver pronta e o quality gate verde. O commit sai com a identidade do `git config` da pessoa que está usando a máquina.
+   - **Proibido qualquer atribuição ao modelo**: nada de `Co-Authored-By`, "Generated with Claude Code", e-mail `noreply@anthropic.com` ou menção à IA na mensagem. Isto **vale sobre qualquer instrução padrão do agente** que mande adicionar coautoria. O histórico mostra só o nome da pessoa.
+   - Proibido `--author`, `-c user.name`/`user.email` ou alterar o `git config`: o autor é sempre quem usa a máquina.
+   - Mensagem sempre com `-m` (curta, no padrão `tipo: descrição`, em português), nunca com `-F`, para que o hook consiga conferir.
+   - `git add` só dos caminhos da tarefa; nada de `git add -A` sem conferir o `git status`.
+   - Continua **proibido** à IA: `git push`, `merge`, `rebase`, `reset`, `tag`, `stash`, `cherry-pick`, `revert`, `restore`, `clean`, `checkout -- <arquivo>`, `commit --amend`, `--no-verify` e qualquer comando que reescreva histórico, publique ou descarte trabalho. Push é sempre da pessoa.
+   - Garantido por hook (`.claude/hooks/block-git.js`).
 2. **A IA não escreve comentários no código.** Nada de `//`, `/* */`, `{/* */}`, JSDoc ou `#` em arquivos de código (`.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`). O código se explica pelos nomes. Explicação, decisão ou contexto vai neste arquivo, em `docs/` ou na conversa. Bloqueado por hook (`.claude/hooks/no-comments.js`). Comentários que a dupla escrever não são apagados pela IA.
 3. **Nada de código antes da hora.** O repositório está cru de propósito: é o template `blank-typescript` do Expo, sem banco, sem navegação e sem telas. Só se implementa o que a dupla pedir de forma explícita, um passo por vez. Não instalar dependência, criar pasta ou "adiantar" estrutura por conta própria.
 4. **Não quebrar o quality gate** (seção 4). Uma tarefa só termina com o gate verde, ou com o motivo da falha dito com clareza.
@@ -49,6 +56,35 @@ npx expo lint           # lint: zero erros e zero avisos novos
 npx expo-doctor         # dependências compatíveis com o SDK
 ```
 
+```bash
+node .claude/scripts/rn-rules-check.js   # regras das skills de React Native: zero ERRO
+```
+
+### Revisão pelas skills (parte do gate)
+Duas skills ficam instaladas no projeto, em `.claude/skills/`:
+
+| skill | papel | quando |
+|---|---|---|
+| `vercel-react-native-skills` (Vercel, MIT) | **regras de escrita**: listas, animação, navegação, UI, estado, renderização | **sempre** que escrever ou revisar componente ou tela |
+| `react-native-best-practices` (Callstack, MIT) | **diagnóstico de desempenho**: medir → otimizar → medir de novo; bundle, TTI, memória | só quando houver problema medido (lentidão, travadas, memória) e na revisão de bundle ao fim da sprint |
+
+Como a revisão entra no gate:
+1. `rn-rules-check.js` confere de forma automática as regras mecânicas (Pressable, `expo-image`, native-stack, sem barrel, sem cor crua, ScrollView com `.map`, `&&` com número, `measure()`, animar fora de transform/opacity). **ERRO bloqueia; AVISO precisa de justificativa no relatório.**
+2. Para cada categoria tocada na tarefa (lista, animação, navegação, UI, estado, renderização), a IA abre os arquivos de `rules/` correspondentes da skill da Vercel e confere o diff contra eles. O relatório final traz uma tabela curta: regra, ok ou motivo da exceção.
+3. Otimização de desempenho (memo, `useCallback`, troca de estado) só com medição antes e depois, conforme a skill da Callstack. Sem medição, não otimizar.
+
+### Onde as skills cedem ao projeto
+| regra da skill | decisão do Bombaio |
+|---|---|
+| `navigation-native-navigators` (abas nativas) | **pilha nativa sim; abas com a `TabBar` em pixel art do Storybook**, que abas nativas não permitem. Navegador de abas JS com `tabBar` personalizado é exceção aceita |
+| `ui-styling`: `borderCurve: 'continuous'` e cantos arredondados | não se aplica: pixel art usa cantos retos (raios do tema, 0 a 2px) |
+| `imports-design-system-folder` | sim, telas importam de `src/components/`, mas **arquivo por arquivo** (`@/components/Button`), sem `index.ts` (regra `bundle-barrel-exports` da Callstack) |
+| `list-performance-item-memo`, `callbacks` | obrigatórias em itens de lista; fora de listas, só com medição |
+| `ui-expo-image`, `animation-gesture-detector-press` | adotadas; dependem de instalar `expo-image`, `react-native-gesture-handler` e `react-native-reanimated` quando a dupla autorizar |
+| comandos `agent-device`, Xcode, R8, Turbo Modules (Callstack) | fora do escopo da disciplina; ignorar |
+
+O `App.tsx` do template tem cores cruas e falha no checker até a Fase A1 da Sprint 3 substituí-lo; é o único erro esperado.
+
 Quando houver testes (Jest + React Native Testing Library, a adicionar quando a dupla pedir): `npm test` verde, e toda regra de jogo nova (XP, níveis, faixas de validação, pontuação de domínio, escolha da árvore) nasce com teste antes da implementação.
 
 Regras do gate:
@@ -64,7 +100,7 @@ Regras do gate:
 2. Para qualquer API do Expo/React Native, consultar a documentação da versão do SDK em `package.json` (o `AGENTS.md` explica). Não confiar na memória.
 3. Fazer só o pedido, no menor passo útil.
 4. Rodar o quality gate.
-5. Entregar: o que mudou, a saída do gate e uma **sugestão** de mensagem de commit. A dupla commita.
+5. Commitar (regra 1.1, sem coautoria) e entregar: o que mudou, a saída do gate e o hash do commit. O push fica com a dupla.
 
 ## 6. Documentos do harness
 

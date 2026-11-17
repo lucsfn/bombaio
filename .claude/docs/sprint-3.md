@@ -43,7 +43,7 @@ Enquanto uma decisão estiver como "proposta", a IA segue a proposta, mas **não
 - `src/theme/typography.ts`: escalas display (Jersey 15: 34/28/24/20/18), rótulo (VT323: 18/16) e corpo (Atkinson: 16/14).
 - Carregamento das fontes com a splash segurando até carregar.
 - `assets/`: ícones (128 e 32), skills, ornamentos, controles e as 25 árvores, com nomes iguais aos do Storybook.
-- `src/components/index.ts`: ponto único de exportação.
+- Alias `@/` para `src/` no `tsconfig.json`. **Sem `src/components/index.ts`**: cada import aponta para o arquivo (`@/components/Button`), por causa da regra `bundle-barrel-exports` (o checker barra).
 
 ### Fase A2: Primitivos (destrava o início da Frente B)
 | componente | props principais | notas |
@@ -105,7 +105,7 @@ Todas as telas navegáveis com dados de exemplo, estado coerente entre telas, re
 A regra geral: **parar, decidir pelo caminho que preserva o sistema, registrar a decisão** (neste arquivo ou no `CLAUDE.md`). Nunca resolver um impasse em silêncio.
 
 ### 6.1 A tela precisa de um componente que não existe
-1. Procurar antes: `src/components/index.ts`, a vitrine e o Storybook. Muitas vezes é uma variante de algo existente (um `Card` com outro conteúdo, não um `NovoCard`).
+1. Procurar antes: a pasta `src/components/`, a vitrine e o Storybook. Muitas vezes é uma variante de algo existente (um `Card` com outro conteúdo, não um `NovoCard`).
 2. Se for mesmo novo e **reutilizável** (aparece ou vai aparecer em 2+ telas): é da Frente A. Se o Lucas estiver disponível, ele faz. Se não, quem precisa cria **seguindo a seção 7**, em `src/components/`, com entrada na vitrine, e avisa o Lucas no PR.
 3. Se for **específico de uma tela só**: fica junto da tela (`src/app/<rota>/_components/`), mas usando só tokens e primitivos. Se depois for reutilizado, sobe para `src/components/`.
 4. Nunca: estilo inline com cor crua, cópia de outro componente com ajustes, ou componente de biblioteca externa.
@@ -131,7 +131,7 @@ Parar e perguntar. Se aprovada: `npx expo install <pacote>` (nunca `npm install`
 Não contornar (sem `@ts-ignore`, sem desativar regra). Se a correção é pequena e óbvia, corrigir e dizer no relatório. Se é do território do outro, relatar com a saída do erro e parar.
 
 ### 6.8 Os dois precisam mexer no mesmo arquivo
-Dono da pasta decide (seção 2). Arquivos compartilhados (`src/components/index.ts`, `app.json`, `package.json`): mudanças pequenas e em PR separado, avisando o outro. Conflito de merge é resolvido por quem abriu o PR mais recente.
+Dono da pasta decide (seção 2). Arquivos compartilhados (`app.json`, `package.json`): mudanças pequenas e em PR separado, avisando o outro. Conflito de merge é resolvido por quem abriu o PR mais recente.
 
 ### 6.9 A `SkillTree` atrasa e bloqueia a tela Skills
 A tela Skills entra primeiro com uma versão provisória (`TreeHeader` + imagem da árvore sem medalhões + acordeão por área), e a `SkillTree` completa substitui depois sem mudar a interface de props. Se o atraso passar de uma semana, a `SkillTree` pode ser repassada ao Dudu (decisão da dupla).
@@ -147,7 +147,7 @@ Perguntar. Uma pergunta curta custa menos que desfazer trabalho.
 
 ## 7. Como criar um componente (o estilo do projeto)
 
-1. **Um componente por arquivo**: `src/components/<Nome>.tsx` (ou pasta `<Nome>/` se tiver subpartes), exportado em `index.ts`. Nome em inglês, PascalCase, igual ao do Storybook quando existir lá.
+1. **Um componente por arquivo**: `src/components/<Nome>.tsx` (ou pasta `<Nome>/` se tiver subpartes), importado pelo caminho do arquivo (sem barrel). Nome em inglês, PascalCase, igual ao do Storybook quando existir lá.
 2. **Props tipadas** com `type <Nome>Props`, exportado. Variantes como união de strings literais, nunca booleanos em série (`variant='gold'`, não `isGold isBig`).
 3. **Estilo** em `StyleSheet.create` no fim do arquivo, só com valores de `src/theme/`. Nada de número mágico de cor, espaço ou fonte.
 4. **Visual**: segue a "Saga rúnica" (seção 3 do `CLAUDE.md`): materiais frios, pixel art 128 para arte, cor de significado em filete ou texto (não na moldura inteira), dourado só para recompensa e ação principal.
@@ -169,9 +169,9 @@ Perguntar. Uma pergunta curta custa menos que desfazer trabalho.
 ## 8. Fluxo de trabalho e quality gate
 
 - **Branches**: `front/a-<fase>-<assunto>` (Lucas) e `front/b-<fase>-<assunto>` (Dudu). PRs pequenos, um assunto cada.
-- **Gate** (antes de pedir revisão): `npx tsc --noEmit`, `npx expo lint`, `npx expo-doctor` e, a partir da Fase B2, `npm test`. Tudo verde.
+- **Gate** (antes de pedir revisão): `npx tsc --noEmit`, `npx expo lint`, `npx expo-doctor`, `node .claude/scripts/rn-rules-check.js` e a revisão pelas skills (seção 4 do `CLAUDE.md`) e, a partir da Fase B2, `npm test`. Tudo verde.
 - **Revisão cruzada**: o Dudu revisa PRs de componente pelo uso (dá para montar a tela com isso?); o Lucas revisa PRs de tela pelo uso correto dos componentes e do tema.
-- **IA**: implementa e roda o gate, mas não commita (o hook bloqueia). Termina cada tarefa com: o que mudou, saída do gate e uma sugestão de mensagem de commit.
+- **IA**: implementa, roda o gate e commita na branch da frente, **sem coautoria do modelo** (regra 1.1 do `CLAUDE.md`). Não dá push nem abre PR. Termina cada tarefa com: o que mudou, saída do gate e o hash do commit.
 - **Teste em aparelho**: ao fim de cada fase, abrir no Expo Go (ou build de desenvolvimento) num Android real.
 
 ## 9. Registro de decisões e pendências
