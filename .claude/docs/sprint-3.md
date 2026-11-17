@@ -185,6 +185,8 @@ Atualizar aqui durante a sprint (data, decisão, quem).
 | 2026-11-17 | Dependências da A1 aprovadas: expo-font, expo-splash-screen, Google Fonts (Jersey 15, VT323, Atkinson), expo-router e pares, ESLint (`eslint-config-expo`, instalado com `--legacy-peer-deps`) | decidido (Lucas) |
 | 2026-11-17 | Árvores em PNG 942×942 (grade 314 × 3, vizinho mais próximo) em `assets/arvores/`, registro em `src/theme/art.ts` | decidido (Lucas) |
 | 2026-11-17 | `src/app/_layout.tsx` (fontes + splash + Stack) e `src/app/index.tsx` (redireciona para `/dev`) criados pela Frente A como base mínima; o Dudu assume e substitui na B1 | provisório |
+| 2026-11-17 | `expo-image` aprovado e instalado (Fase A2) | decidido (Lucas) |
+| 2026-11-17 | Botões, campo e chip desenhados com borda e preenchimento dos tokens, sem a arte 9-slice (`ctl-btn-*`, `ctl-input`, `ctl-chip`): o `expo-image` não faz 9-slice. Checkbox, Radio e Toggle usam a arte de `assets/controles/` | provisório, revisar com a dupla |
 
 ## 10. Material para a seção 4.1 do documento
 
