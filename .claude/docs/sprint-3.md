@@ -191,7 +191,7 @@ Atualizar aqui durante a sprint (data, decisão, quem).
 | 2026-11-17 | `TabBar` genérica (`items`, `activeKey`, `onSelect`), sem depender do Expo Router; o Dudu liga no `tabBar` do navegador de abas na B1 | decidido (Lucas) |
 | 2026-11-17 | Vitrine em duas páginas: `/dev` (A1–A2) e `/dev/superficies` (A3) | decidido (Lucas) |
 | 2026-11-17 | `react-native-svg` aprovado e instalado (`--legacy-peer-deps`) para `RadarChart` e `ProgressRing` | decidido (Lucas) |
-| 2026-11-17 | Aro verde-água do medalhão validado (`assets/ornamentos/node-validated.png`) gerado recolorindo o `node-available.png` (lavanda → rune), porque o Storybook não tem essa arte | provisório, revisar com a dupla |
+| 2026-11-17 | Medalhão validado usa a arte original do Storybook (`node-validated.png`). Uma recoloração gerada por engano no commit `4763fd2` foi desfeita no commit seguinte | decidido (Lucas) |
 | 2026-11-17 | `SkillMedallion` e `AchievementMedal` usam as artes do Storybook (`node-*`, `ach-*`) com o ícone no centro; o estado `seed` usa o aro `node-locked` com cadeado | decidido (Lucas) |
 | 2026-11-17 | Vitrine da A4 em `/dev/jogo` | decidido (Lucas) |
 
