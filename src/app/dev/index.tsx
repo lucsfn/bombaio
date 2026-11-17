@@ -91,6 +91,12 @@ export default function DevShowcase() {
           leading={{ kind: 'icon', name: 'book' }}
           onPress={() => router.push('/dev/superficies')}
         />
+        <ListRow
+          title="Componentes de jogo"
+          subtitle="Fase A4: XPBar, LevelPips, medalhões, medalhas, radar…"
+          leading={{ kind: 'icon', name: 'trophy' }}
+          onPress={() => router.push('/dev/jogo')}
+        />
 
         <Section title="Text">
           {typeSamples.map((variant) => (

@@ -122,3 +122,22 @@ export const layout = {
   inactiveIconOpacity: 0.65,
   disabledOpacity: 0.5,
 } as const;
+
+export const gameSizes = {
+  pip: 12,
+  pipCount: 10,
+  xpBarHeight: 16,
+  xpTicks: [0.25, 0.5, 0.75],
+  medallionSmall: 64,
+  medallionLarge: 128,
+  medal: 96,
+  medalIcon: 32,
+  levelBadge: 22,
+  treeCount: 25,
+  naturalTreeCount: 20,
+  treeRulerCell: 8,
+  ringStroke: 6,
+  radarRings: 4,
+  stepDot: 24,
+  seedOpacity: 0.6,
+} as const;
