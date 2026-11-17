@@ -17,7 +17,7 @@ process.stdin.on("end", () => {
   const forbidden = /\bgit\b[^|;&\n]*?\b(push|merge|rebase|reset|tag|stash|cherry-pick|revert|restore|am|apply|filter-branch|filter-repo|update-ref|clean|replace|notes)\b|\bgit\b[^|;&\n]*?\bcheckout\b[^|;&\n]*\s--(\s|$)/i;
   if (forbidden.test(command)) block("a IA não publica, não reescreve histórico e não descarta trabalho. Push e afins ficam com a dupla.");
 
-  if (/\bgit\b[^|;&\n]*\bconfig\b/i.test(command) && !/\bconfig\b[^|;&\n]*\s(--get|--list|-l)\b/i.test(command)) block("a IA não altera o git config.");
+  if (/\bgit(\s+-{1,2}[\w-]+(=\S+|\s+[^-\s]\S*)?)*\s+config\b/i.test(command) && !/\bconfig\b[^|;&\n]*\s(--get|--list|-l)\b/i.test(command)) block("a IA não altera o git config.");
   if (/\bgit\s+-c\s+user\./i.test(command)) block("a IA não sobrescreve a identidade do autor.");
 
   if (/\bgit\b[^|;&\n]*\bcommit\b/i.test(command)) {
