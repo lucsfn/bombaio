@@ -97,6 +97,12 @@ export default function DevShowcase() {
           leading={{ kind: 'icon', name: 'trophy' }}
           onPress={() => router.push('/dev/jogo')}
         />
+        <ListRow
+          title="Árvore de skills"
+          subtitle="Fase A5: SkillTree com zoom e acordeão, TreeEvolution"
+          leading={{ kind: 'icon', name: 'star' }}
+          onPress={() => router.push('/dev/arvore')}
+        />
 
         <Section title="Text">
           {typeSamples.map((variant) => (
