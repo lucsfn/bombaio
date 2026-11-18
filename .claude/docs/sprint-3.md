@@ -194,6 +194,11 @@ Atualizar aqui durante a sprint (data, decisão, quem).
 | 2026-11-17 | Medalhão validado usa a arte original do Storybook (`node-validated.png`). Uma recoloração gerada por engano no commit `4763fd2` foi desfeita no commit seguinte | decidido (Lucas) |
 | 2026-11-17 | `SkillMedallion` e `AchievementMedal` usam as artes do Storybook (`node-*`, `ach-*`) com o ícone no centro; o estado `seed` usa o aro `node-locked` com cadeado | decidido (Lucas) |
 | 2026-11-17 | Vitrine da A4 em `/dev/jogo` | decidido (Lucas) |
+| 2026-11-17 | `react-native-gesture-handler` 3, `react-native-reanimated` 4 e `react-native-worklets` aprovados e instalados (`--legacy-peer-deps`); `GestureHandlerRootView` no `_layout.tsx` raiz | decidido (Lucas) |
+| 2026-11-17 | Dados das 25 árvores (nome, chão, copa, mínimos, requisitos dos poderes e encaixes medidos `s`) extraídos do `TREES` do Storybook para `src/theme/trees.ts`; a máscara `m` e o centro `k` ficaram de fora | decidido (Lucas) |
+| 2026-11-17 | `SkillTree` (`src/components/SkillTree/SkillTree.tsx`): props `skills`, `areas`, `variant`, `openArea`, `onOpenAreaChange`, `onSelectSkill`; não lê o Context. A escolha da variante (`treeScore`/`treeVariant`) é regra de jogo e fica em `src/game/` (B2) | decidido (Lucas) |
+| 2026-11-17 | Zoom da árvore: pinça, arrastar e botões +/−/ver tudo (1× a 4×). Os medalhões crescem menos que a cena (escala z^−0,8), o que afasta os vizinhos sem física. Ficaram de fora do Storybook: grafo com colisão, arrastar nó para nova casa, nomes sobre a árvore a partir de 1,8× | provisório, revisar com a dupla |
+| 2026-11-17 | Vitrine da A5 em `/dev/arvore` com o `WORLD` de exemplo do Storybook | decidido (Lucas) |
 
 ## 10. Material para a seção 4.1 do documento
 
