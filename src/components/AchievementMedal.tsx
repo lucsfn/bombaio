@@ -12,6 +12,7 @@ export type AchievementMedalProps = {
   title: string;
   icon?: IconName;
   hint?: string;
+  showTitle?: boolean;
 };
 
 const medals = {
@@ -30,7 +31,7 @@ const tierLabels: Record<AchievementTier, string> = {
   locked: 'bloqueada',
 };
 
-export function AchievementMedal({ tier, title, icon, hint }: AchievementMedalProps) {
+export function AchievementMedal({ tier, title, icon, hint, showTitle = true }: AchievementMedalProps) {
   const locked = tier === 'locked';
   const spoken = title + ', conquista ' + tierLabels[tier] + (locked && hint ? ', ' + hint : '');
 
@@ -44,9 +45,11 @@ export function AchievementMedal({ tier, title, icon, hint }: AchievementMedalPr
           </View>
         ) : null}
       </View>
-      <Text variant="label" tone={locked ? 'dim' : 'ink'} align="center" numberOfLines={2}>
-        {title}
-      </Text>
+      {showTitle ? (
+        <Text variant="label" tone={locked ? 'dim' : 'ink'} align="center" numberOfLines={2}>
+          {title}
+        </Text>
+      ) : null}
       {locked && hint ? (
         <Text variant="labelSm" tone="dim" align="center">
           {hint}

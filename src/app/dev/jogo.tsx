@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { AchievementMedal } from '@/components/AchievementMedal';
+import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { LevelPips } from '@/components/LevelPips';
 import { Panel } from '@/components/Panel';
@@ -10,6 +11,8 @@ import { QuestCard } from '@/components/QuestCard';
 import { RadarChart } from '@/components/RadarChart';
 import { Screen } from '@/components/Screen';
 import { ScreenHeader } from '@/components/ScreenHeader';
+import { SectionHeader } from '@/components/SectionHeader';
+import { Segmented } from '@/components/Segmented';
 import { SkillMedallion } from '@/components/SkillMedallion';
 import { StatChip } from '@/components/StatChip';
 import { Stepper } from '@/components/Stepper';
@@ -33,12 +36,32 @@ export default function GameShowcase() {
   const [questDone, setQuestDone] = useState(false);
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState('Nenhuma ação ainda.');
+  const [segment, setSegment] = useState<'geral' | 'avaliacao' | 'evolucao'>('geral');
 
   return (
     <Screen header={<ScreenHeader title="Jogo" subtitle="Fase A4 · vitrine" onBack={() => router.back()} />}>
       <Text variant="bodySm" tone="muted">
         {message}
       </Text>
+
+      <Panel title="Avatar">
+        <View style={styles.row}>
+          <Avatar name="Herói" size={64} level={3} />
+          <Avatar name="Herói" size={96} level={12} />
+          <Avatar name="Herói" size={128} />
+        </View>
+      </Panel>
+
+      <SectionHeader title="Suas skills" action={{ label: 'Ver árvore', onPress: () => setMessage('Ver árvore tocado') }} />
+      <Segmented
+        items={[
+          { key: 'geral', label: 'Visão geral' },
+          { key: 'avaliacao', label: 'Avaliação' },
+          { key: 'evolucao', label: 'Evolução' },
+        ]}
+        value={segment}
+        onChange={setSegment}
+      />
 
       <Panel title="XPBar e LevelPips">
         <XPBar value={740} max={1000} level={12} label="Nível geral" />
