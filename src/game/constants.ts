@@ -1,6 +1,8 @@
 export const MAX_SKILL_LEVEL = 10;
 
-export const HERO_XP_PER_LEVEL = 1000;
+export const HERO_XP_BASE = 400;
+
+export const HERO_XP_STEP = 50;
 
 export const PRACTICE_XP_PER_TARGET_LEVEL = 100;
 

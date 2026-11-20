@@ -5,7 +5,7 @@ export const FIRST_MISSION_ACHIEVEMENT_ID = 'chama-acesa';
 export const initialState: GameState = {
   hero: {
     name: 'Eduardo',
-    totalXp: 11740,
+    totalXp: 8440,
     weeklyXp: 320,
     streakDays: 7,
     equippedTitleId: 'explorador',
