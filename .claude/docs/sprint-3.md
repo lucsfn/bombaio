@@ -199,6 +199,11 @@ Atualizar aqui durante a sprint (data, decisão, quem).
 | 2026-11-17 | `SkillTree` (`src/components/SkillTree/SkillTree.tsx`): props `skills`, `areas`, `variant`, `openArea`, `onOpenAreaChange`, `onSelectSkill`; não lê o Context. A escolha da variante (`treeScore`/`treeVariant`) é regra de jogo e fica em `src/game/` (B2) | decidido (Lucas) |
 | 2026-11-17 | Zoom da árvore: pinça, arrastar e botões +/−/ver tudo (1× a 4×). Os medalhões crescem menos que a cena (escala z^−0,8), o que afasta os vizinhos sem física. Ficaram de fora do Storybook: grafo com colisão, arrastar nó para nova casa, nomes sobre a árvore a partir de 1,8× | provisório, revisar com a dupla |
 | 2026-11-17 | Vitrine da A5 em `/dev/arvore` com o `WORLD` de exemplo do Storybook | decidido (Lucas) |
+| 2026-11-20 | Frente B assumida pelo Lucas (o Dudu não vai codar nesta etapa). Ordem invertida: B2 (regras) antes da B1, porque o `GameProvider` depende das regras de XP | decidido (Lucas) |
+| 2026-11-20 | Testes: `jest`, `jest-expo`, `@react-native/jest-preset`, `@testing-library/react-native` e `@types/jest` aprovados e instalados (`--legacy-peer-deps`); `npm test` roda o Jest; os testes importam de `@jest/globals` | decidido (Lucas) |
+| 2026-11-20 | `HERO_XP_PER_LEVEL = 1000` e `PRACTICE_XP_PER_TARGET_LEVEL = 100` (`src/game/constants.ts`) deduzidos dos números do protótipo (herói nível 12 com 740/1000; Python 180/400 rumo ao nível 4). Não há curva de XP decidida | provisório, perguntar à dupla |
+| 2026-11-20 | Pontuação de domínio soma o quadrado do `level` de todas as skills, onde `level` é sempre o último nível validado (regra de `docs/arvores/evolucao-natural.md` do Storybook). O `treeScore` do bundle do Storybook só contava skills no estado `validated`; segui o documento de regras | decidido (Lucas), divergência registrada |
+| 2026-11-20 | Baú semanal de 500 XP (`WEEKLY_CHEST_XP`), tirado do protótipo do Storybook | decidido (Lucas) |
 
 ## 10. Material para a seção 4.1 do documento
 
