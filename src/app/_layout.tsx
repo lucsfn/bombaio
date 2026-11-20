@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
+import { GameProvider } from '@/state/GameProvider';
 import { fontSources } from '@/theme/fonts';
 import { colors } from '@/theme/tokens';
 
@@ -26,17 +27,28 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={styles.root}>
-      <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.void },
-        }}
-      />
+      <GameProvider>
+        <StatusBar style="light" />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.void },
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="skill/[id]" />
+          <Stack.Screen name="avaliacao/[id]" />
+          <Stack.Screen
+            name="conquista"
+            options={{ presentation: 'transparentModal', animation: 'fade', contentStyle: styles.modal }}
+          />
+        </Stack>
+      </GameProvider>
     </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.void },
+  modal: { backgroundColor: colors.scrim },
 });
