@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
+import { EmptyState } from '@/components/EmptyState';
 import { ListRow } from '@/components/ListRow';
 import { QuestCard } from '@/components/QuestCard';
 import { Screen } from '@/components/Screen';
@@ -14,8 +15,6 @@ import { XPBar } from '@/components/XPBar';
 import { useGame } from '@/state/GameProvider';
 import { selectEquippedTitle, selectHeroLevel, selectOwnedSkills } from '@/state/selectors';
 import { space } from '@/theme/tokens';
-
-const featuredSkillIds = ['python', 'ingles', 'violao'];
 
 const statusSubtitles = {
   ai: 'Validado por IA',
@@ -30,8 +29,9 @@ export default function HeroScreen() {
   const [gained, setGained] = useState<{ xp: number; title: string } | null>(null);
   const progress = selectHeroLevel(state);
   const nextMission = state.missions.find((mission) => !mission.done);
-  const featured = featuredSkillIds.flatMap((id) => state.skills.filter((skill) => skill.id === id));
-  const skillCount = selectOwnedSkills(state).length;
+  const owned = selectOwnedSkills(state);
+  const featured = [...owned].sort((a, b) => Number(b.status === 'current') - Number(a.status === 'current')).slice(0, 3);
+  const skillCount = owned.length;
 
   const completeNext = () => {
     if (!nextMission) return;
@@ -84,6 +84,14 @@ export default function HeroScreen() {
 
         <View style={styles.section}>
           <SectionHeader title="Suas skills" action={{ label: 'Ver árvore', onPress: () => router.navigate('/skills') }} />
+          {featured.length === 0 ? (
+            <EmptyState
+              icon="star"
+              title="Nenhuma skill ainda"
+              message="Cadastre uma habilidade real para começar a praticar."
+              action={{ label: 'Cadastrar skill', onPress: () => router.push('/nova-skill') }}
+            />
+          ) : null}
           {featured.map((skill) => (
             <ListRow
               key={skill.id}

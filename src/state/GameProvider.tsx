@@ -13,6 +13,11 @@ export type GameActions = {
   addSkill: (input: { name: string; areaId: string; art: SkillArtName }) => void;
   setOpenArea: (areaId: string | null) => void;
   setSetting: (key: keyof Settings, value: boolean) => void;
+  signIn: (email: string) => void;
+  signUp: (input: { name: string; email: string }) => void;
+  signOut: () => void;
+  completeOnboarding: (skills: { name: string; areaId: string; art: SkillArtName }[]) => void;
+  editSkill: (input: { skillId: string; name: string; areaId: string }) => void;
 };
 
 type GameContextValue = {
@@ -36,6 +41,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       addSkill: (input) => dispatch({ type: 'addSkill', ...input }),
       setOpenArea: (areaId) => dispatch({ type: 'setOpenArea', areaId }),
       setSetting: (key, value) => dispatch({ type: 'setSetting', key, value }),
+      signIn: (email) => dispatch({ type: 'signIn', email }),
+      signUp: (input) => dispatch({ type: 'signUp', ...input }),
+      signOut: () => dispatch({ type: 'signOut' }),
+      completeOnboarding: (skills) => dispatch({ type: 'completeOnboarding', skills }),
+      editSkill: (input) => dispatch({ type: 'editSkill', ...input }),
     }),
     [],
   );

@@ -1,4 +1,4 @@
-import { FIRST_MISSION_ACHIEVEMENT_ID } from '@/data/mock';
+import { FIRST_MISSION_ACHIEVEMENT_ID, STARTER_TITLE_ID } from '@/data/mock';
 import type { GameState, Settings } from '@/data/types';
 import { MAX_SKILL_LEVEL } from '@/game/constants';
 import { completeMission } from '@/game/missions';
@@ -13,7 +13,12 @@ export type GameAction =
   | { type: 'submitAssessment'; skillId: string; evidence: string; summary: string; now: string }
   | { type: 'addSkill'; name: string; areaId: string; art: SkillArtName }
   | { type: 'setOpenArea'; areaId: string | null }
-  | { type: 'setSetting'; key: keyof Settings; value: boolean };
+  | { type: 'setSetting'; key: keyof Settings; value: boolean }
+  | { type: 'signIn'; email: string }
+  | { type: 'signUp'; name: string; email: string }
+  | { type: 'signOut' }
+  | { type: 'completeOnboarding'; skills: { name: string; areaId: string; art: SkillArtName }[] }
+  | { type: 'editSkill'; skillId: string; name: string; areaId: string };
 
 function slugify(name: string) {
   return name
@@ -22,6 +27,28 @@ function slugify(name: string) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+}
+
+function freshProfile(state: GameState, name: string, email: string): GameState {
+  return {
+    ...state,
+    session: { signedIn: true, email, onboarded: false },
+    hero: {
+      name,
+      totalXp: 0,
+      weeklyXp: 0,
+      streakDays: 0,
+      equippedTitleId: STARTER_TITLE_ID,
+      ownedTitleIds: [STARTER_TITLE_ID],
+    },
+    skills: [],
+    missions: state.missions.map((mission) => ({ ...mission, done: false })),
+    achievements: state.achievements.map((achievement) => ({ ...achievement, unlocked: false })),
+    assessments: [],
+    levelHistory: [],
+    pendingAchievementId: null,
+    openArea: null,
+  };
 }
 
 function unlockAchievement(state: GameState, achievementId: string): GameState {
@@ -105,6 +132,31 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           ...state.skills,
           { id, name, areaId: action.areaId, art: action.art, level: 0, practiceXp: 0, status: 'available', validation: null },
         ],
+      };
+    }
+    case 'signIn':
+      return { ...state, session: { signedIn: true, email: action.email.trim(), onboarded: true } };
+    case 'signUp':
+      return freshProfile(state, action.name.trim(), action.email.trim());
+    case 'signOut':
+      return { ...state, session: { ...state.session, signedIn: false } };
+    case 'completeOnboarding': {
+      const withSkills = action.skills.reduce<GameState>(
+        (current, skill) => gameReducer(current, { type: 'addSkill', ...skill }),
+        state,
+      );
+      return { ...withSkills, session: { ...withSkills.session, onboarded: true } };
+    }
+    case 'editSkill': {
+      const name = action.name.trim();
+      const skill = state.skills.find((item) => item.id === action.skillId);
+      const taken = state.skills.some(
+        (item) => item.id !== action.skillId && item.name.toLowerCase() === name.toLowerCase(),
+      );
+      if (!skill || name === '' || taken) return state;
+      return {
+        ...state,
+        skills: state.skills.map((item) => (item.id === skill.id ? { ...item, name, areaId: action.areaId } : item)),
       };
     }
     case 'setOpenArea':

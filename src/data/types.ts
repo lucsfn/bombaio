@@ -91,7 +91,14 @@ export type Settings = {
   publicProfile: boolean;
 };
 
+export type Session = {
+  signedIn: boolean;
+  email: string;
+  onboarded: boolean;
+};
+
 export type GameState = {
+  session: Session;
   hero: Hero;
   areas: Area[];
   skills: Skill[];

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { router } from 'expo-router';
 import { AchievementMedal } from '@/components/AchievementMedal';
 import { Avatar } from '@/components/Avatar';
 import { Chip } from '@/components/Chip';
@@ -10,7 +10,6 @@ import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { StatChip } from '@/components/StatChip';
 import { Text } from '@/components/Text';
-import { Toast } from '@/components/Toast';
 import { Toggle } from '@/components/Toggle';
 import { MAX_SKILL_LEVEL } from '@/game/constants';
 import { useGame } from '@/state/GameProvider';
@@ -19,7 +18,6 @@ import { space } from '@/theme/tokens';
 
 export default function ProfileScreen() {
   const { state, actions } = useGame();
-  const [notice, setNotice] = useState(false);
   const owned = selectOwnedSkills(state);
   const validated = owned.filter((skill) => skill.status === 'validated').length;
 
@@ -51,7 +49,7 @@ export default function ProfileScreen() {
         </View>
 
         <View style={styles.section}>
-          <SectionHeader title="Conquistas" />
+          <SectionHeader title="Conquistas" action={{ label: 'Ver todas', onPress: () => router.push('/conquistas') }} />
           <Panel>
             <View style={styles.medals}>
               {state.achievements.map((achievement) => (
@@ -106,17 +104,10 @@ export default function ProfileScreen() {
             title="Configurações"
             subtitle="Conta, notificações e privacidade"
             leading={{ kind: 'icon', name: 'shield' }}
-            onPress={() => setNotice(true)}
+            onPress={() => router.push('/configuracoes')}
           />
         </View>
       </Screen>
-      <Toast
-        visible={notice}
-        tone="ok"
-        title="Configurações"
-        subtitle="Fora do escopo do protótipo."
-        onDismiss={() => setNotice(false)}
-      />
     </View>
   );
 }

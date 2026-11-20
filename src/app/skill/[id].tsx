@@ -54,7 +54,20 @@ export default function SkillDetailScreen() {
   const assessments = state.assessments.filter((item) => item.skillId === skill.id).reverse();
 
   return (
-    <Screen header={<ScreenHeader title={skill.name} subtitle={area?.name} onBack={goBack} />}>
+    <Screen
+      header={
+        <ScreenHeader
+          title={skill.name}
+          subtitle={area?.name}
+          onBack={goBack}
+          action={{
+            icon: 'note',
+            accessibilityLabel: 'Editar skill',
+            onPress: () => router.push({ pathname: '/editar-skill/[id]', params: { id: skill.id } }),
+          }}
+        />
+      }
+    >
       <View style={styles.hero}>
         <SkillMedallion skill={skill.art} name={skill.name} state={skill.status} level={skill.level} size="large" />
         {skill.validation ? <ValidationBadge kind={skill.validation} /> : null}

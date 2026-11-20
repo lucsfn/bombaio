@@ -2,7 +2,10 @@ import type { GameState } from '@/data/types';
 
 export const FIRST_MISSION_ACHIEVEMENT_ID = 'chama-acesa';
 
+export const STARTER_TITLE_ID = 'aprendiz';
+
 export const initialState: GameState = {
+  session: { signedIn: false, email: '', onboarded: true },
   hero: {
     name: 'Eduardo',
     totalXp: 8440,

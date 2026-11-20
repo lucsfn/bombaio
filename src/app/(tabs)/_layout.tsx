@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { router, Tabs } from 'expo-router';
+import { Redirect, router, Tabs } from 'expo-router';
 import type { BottomTabBarProps } from 'expo-router/tabs';
 import { TabBar, type TabBarItem } from '@/components/TabBar';
 import { useGame } from '@/state/GameProvider';
@@ -43,6 +43,9 @@ export default function TabsLayout() {
   useEffect(() => {
     if (pendingAchievementId) router.push('/conquista');
   }, [pendingAchievementId]);
+
+  if (!state.session.signedIn) return <Redirect href="/login" />;
+  if (!state.session.onboarded) return <Redirect href="/onboarding" />;
 
   return (
     <Tabs

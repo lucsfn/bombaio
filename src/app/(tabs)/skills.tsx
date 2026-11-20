@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
+import { Button } from '@/components/Button';
+import { EmptyState } from '@/components/EmptyState';
 import { Screen } from '@/components/Screen';
+import { SectionHeader } from '@/components/SectionHeader';
 import { SkillTree, type SkillTreeArea, type SkillTreeSkill } from '@/components/SkillTree/SkillTree';
 import { Toast } from '@/components/Toast';
 import { TreeHeader } from '@/components/TreeHeader';
@@ -53,14 +56,24 @@ export default function SkillsScreen() {
           score={tree.score}
           nextThreshold={tree.nextThreshold ?? undefined}
         />
-        <SkillTree
-          skills={skills}
-          areas={areas}
-          variant={tree.variant}
-          openArea={state.openArea}
-          onOpenAreaChange={actions.setOpenArea}
-          onSelectSkill={selectSkill}
-        />
+        <SectionHeader title="Sua árvore" action={{ label: 'Ver evolução', onPress: () => router.push('/arvores') }} />
+        {skills.length > 0 ? (
+          <SkillTree
+            skills={skills}
+            areas={areas}
+            variant={tree.variant}
+            openArea={state.openArea}
+            onOpenAreaChange={actions.setOpenArea}
+            onSelectSkill={selectSkill}
+          />
+        ) : (
+          <EmptyState
+            icon="star"
+            title="Nenhuma skill ainda"
+            message="Cadastre a primeira habilidade para ela aparecer na árvore."
+          />
+        )}
+        <Button label="Nova skill" icon="star" onPress={() => router.push('/nova-skill')} />
       </Screen>
       <Toast
         visible={seedName !== null}
